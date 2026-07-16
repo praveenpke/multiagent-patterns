@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+dist/
+build/
+*.sqlite
+*.sqlite3
+*.db
+
+# Env
+.env
+
+# Node / frontend
+node_modules/
+playground/web/dist/
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
