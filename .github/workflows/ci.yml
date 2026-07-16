@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  python-tests:
+    name: Python tests (keyless, fake models)
+    runs-on: ubuntu-latest
+    env:
+      LGP_FORCE_FAKE: "1" # never call a real model in CI
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: uv sync --all-extras
+      - name: Run tests
+        run: uv run pytest
+
+      - name: Run every pattern example
+        working-directory: examples
+        run: |
+          for example in *_example.py; do
+            echo "=== $example ==="
+            uv run python "$example"
+          done
+
+  frontend-build:
+    name: Playground frontend build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: playground/web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: playground/web/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: Type-check and build
+        run: npm run build
