@@ -1,0 +1,36 @@
+[project]
+name = "langgraph-patterns"
+version = "0.1.0"
+description = "Reusable LangGraph multi-agent orchestration patterns with typed state, guardrails, and a streaming event API."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Praveen Emani" }]
+keywords = ["langgraph", "langchain", "agents", "multi-agent", "orchestration"]
+dependencies = [
+    "langgraph>=1.0",
+    "langchain-core>=1.0",
+    "langgraph-checkpoint-sqlite>=2.0",
+    "pydantic>=2.7",
+]
+
+[project.optional-dependencies]
+anthropic = ["langchain-anthropic>=1.0"]
+playground = ["fastapi>=0.115", "uvicorn>=0.30"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "httpx>=0.27",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/langgraph_patterns"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
