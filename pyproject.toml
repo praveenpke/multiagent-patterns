@@ -34,3 +34,4 @@ packages = ["src/langgraph_patterns"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
+pythonpath = ["."]  # makes the `playground` app importable in tests
