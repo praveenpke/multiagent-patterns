@@ -188,6 +188,8 @@ def stream_events(
                         },
                     )
             elif mode == "values":
+                if isinstance(chunk, dict):
+                    chunk = {k: v for k, v in chunk.items() if k != "__interrupt__"}
                 last_values = chunk
     except Exception as exc:  # surface failures as events, then re-raise
         yield Event(type="error", data={"message": f"{type(exc).__name__}: {exc}"})
